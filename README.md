@@ -143,7 +143,7 @@ Once the packages installed, you can see you're API doc through this URI :
 #### Swagger UI
 
 Complete UI :
-![alt text](https://github.com/skrylexx/POC_Mongodb_NextJS/blob/main/images/swagger_vue.png?raw=true)
+![alt text](https://github.com/skrylexx/POC_MongoDB_With_JS/blob/main/images/swagger_vue.png?raw=true)
 
 Documentation exemple :
-![alt text](https://github.com/skrylexx/POC_Mongodb_NextJS/blob/main/images/api_call.png?raw=true)
+![alt text](https://github.com/skrylexx/POC_MongoDB_With_JS/blob/main/images/api_call.png?raw=true)
