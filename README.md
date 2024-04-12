@@ -80,3 +80,70 @@ To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and [
 Alternatively, you can deploy using our template by clicking on the Deploy button below.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)
+
+## Context
+
+#### Queried database
+
+This app is made for the `sample_mflix` of Atlas MongoDB.
+
+You can easily create the sample from their website and then run this app.
+
+#### Environnement
+
+Make sur you copied `.env.local.example` as `.env.local` or renamed it.
+
+Format of the DB link is :
+```bash
+MONGODB_URI=mongodb+srv://<'username'>:<'password'>@<'db_name'>.<'id'>.mongodb.net/?retryWrites=true&w=majority
+```
+Text after `.net/` is optional but seems legit.
+
+#### Tests
+
+You may try it by yourself using Postman or by creating your own script.
+
+I personaly used Postman to test my endpoints.
+
+#### Datas
+
+The datas sent to this API are in Json format. MongoDB with NodeJS natively accepts it and doesn't require for any translation.
+
+All Json informations have to be in the body of the request. It permits to send long strings without any error compare to HEAD arguments.
+
+Learn more about :
+
+ - HTTP Methods : https://developer.mozilla.org/fr/docs/Web/HTTP/Methods
+
+ - HTTP Codes : https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP 
+
+
+## Swagger UI
+
+#### Requirements :
+
+Run :
+```bash
+npm install next-swagger-doc
+npm install formdata-node
+npm install swagger-ui-react
+
+#or
+
+yum install next-swagger-doc
+yum install formdata-node
+yum install swagger-ui-react
+```
+
+#### Self-hosted API doc link :
+
+Once the packages installed, you can see you're API doc through this URI :
+`http://localhost:3000/swagger/`
+
+#### Swagger UI
+
+Complete UI :
+![alt text](https://github.com/skrylexx/POC_Mongodb_NextJS/blob/main/with-mongodb-app/images/swagger_vue.png?raw=true)
+
+Documentation exemple :
+![alt text](https://github.com/skrylexx/POC_Mongodb_NextJS/blob/main/with-mongodb-app/images/api_call.png?raw=true)
