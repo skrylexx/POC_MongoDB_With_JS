@@ -1,3 +1,4 @@
+import { redirect } from "next/dist/server/api-utils";
 import React, { useEffect, useState } from "react";
 
 function Home() {
@@ -28,7 +29,7 @@ function Home() {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>Bienvenue sur notre site !</h1>
+      <h1 style={styles.heading}>Bienvenue sur <span style={styles.red}>☭ notre ☭ </span> site !</h1>
       <p style={styles.paragraph}>C'est la page d'accueil.</p>
 
       <h2 style={styles.subHeading}>Liste des films</h2>
@@ -94,6 +95,9 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     marginTop: "20px"
+  },
+  red: {
+    color: "#FF0000"
   }
 };
 
