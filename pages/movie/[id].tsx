@@ -96,7 +96,7 @@ function MovieDetails() {
                 <h1 style={styles.title}>Détails du Film</h1>
                 <div style={styles.detailsContainer}>
                     <div style={styles.posterContainer}>
-                        <img src={movie?.poster ?? ''} alt={movie?.title ?? 'Poster indisponible'} style={styles.poster} /> {/* Utilisation de l'opérateur optionnel ?. pour éviter les erreurs si movie est undefined */}
+                        <img src={movie?.poster ?? ''} alt={'Poster indisponible'} style={styles.poster} /> {/* Utilisation de l'opérateur optionnel ?. pour éviter les erreurs si movie est undefined */}
                     </div>
                     <div style={styles.infoContainer}>
                         <p style={styles.info}><strong>Titre :</strong> {movie?.title ?? 'Undefined'}</p> {/* Afficher 'Undefined' si movie ou movie.title est undefined */}
@@ -108,8 +108,8 @@ function MovieDetails() {
                         <p style={styles.info}><strong>Casting :</strong> {renderList(movie?.cast) ?? 'Undefined'}</p>
                         <p style={styles.info}><strong>Languages :</strong> {renderList(movie?.languages) ?? 'Undefined'}</p> 
                         <p style={styles.info}><strong>Directors :</strong> {renderList(movie?.directors) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Writers :</strong> {renderList(movie?.writers) ?? 'Undefined'}</p>
-                        <img src={movie?.poster ?? ''} alt={movie?.title ?? 'Poster indisponible'} style={styles.fullPoster} /> 
+                        <p style={styles.info}><strong>Writers :</strong> {renderList(movie?.writers) ?? 'Undefined'}</p><br></br>
+                        <strong><img src={movie?.poster ?? ''} alt={'!! Poster indisponible !!'} style={styles.fullPoster}/></strong>
                         <p style={styles.info}><strong>Countries :</strong> {renderList(movie?.countries) ?? 'Undefined'}</p>
                         <p style={styles.info}><strong>Full plot :</strong> {movie?.fullplot ?? 'Undefined'}</p>
                     </div>

@@ -1,5 +1,6 @@
 import { redirect } from "next/dist/server/api-utils";
 import React, { useEffect, useState } from "react";
+import {count} from "types-ramda";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -28,28 +29,28 @@ function Home() {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Bienvenue sur <span style={styles.red}>☭ notre ☭ </span> site !</h1>
-      <p style={styles.paragraph}>C'est la page d'accueil.</p>
+      <div style={styles.container}>
+        <h1 style={styles.heading}>Bienvenue sur <span style={styles.red}>☭ notre ☭ </span> site !</h1>
+        <p style={styles.paragraph}>C'est la page d'accueil.</p>
+        <a href={`/comments`} style={styles.link}> Commentaires </a>
+        <h2 style={styles.subHeading}>Liste de nos {movies.length} films</h2>
+        <ul style={styles.list}>
+          {movies.map((movie, index) => (
+              <li key={movie._id} style={{...styles.listItem, display: showAllMovies || index < 5 ? 'block' : 'none'}}>
+                <a href={`/movie/${movie._id}`} style={styles.link}>
+                  {movie.title}
+                </a>
+              </li>
+          ))}
+        </ul>
 
-      <h2 style={styles.subHeading}>Liste des films</h2>
-      <ul style={styles.list}>
-        {movies.map((movie, index) => (
-          <li key={movie._id} style={{ ...styles.listItem, display: showAllMovies || index < 5 ? 'block' : 'none' }}>
-            <a href={`/movie/${movie._id}`} style={styles.link}>
-              {movie.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      {/* Bouton pour afficher tous les films masqués */}
-      {!showAllMovies && (
-        <button style={styles.button} onClick={handleShowAllMovies}>
-          Afficher plus de films
-        </button>
-      )}
-    </div>
+        {/* Bouton pour afficher tous les films masqués */}
+        {!showAllMovies && (
+            <button style={styles.button} onClick={handleShowAllMovies}>
+              Afficher plus de films
+            </button>
+        )}
+      </div>
   );
 }
 
