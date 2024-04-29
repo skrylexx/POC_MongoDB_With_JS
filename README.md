@@ -7,15 +7,11 @@ If you want to learn more about MongoDB, visit the following pages:
 - [MongoDB Atlas](https://mongodb.com/atlas)
 - [MongoDB Documentation](https://docs.mongodb.com/)
 
-------------------------------
-
 ## Deploy your own
 
 Once you have access to the environment variables you'll need, deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)
-
------------------------------
 
 ## How to use
 
@@ -32,8 +28,6 @@ yarn create next-app --example with-mongodb with-mongodb-app
 ```bash
 pnpm create next-app --example with-mongodb with-mongodb-app
 ```
-
------------------------------
 
 ## Configuration
 
@@ -70,8 +64,6 @@ Your app should be up and running on [http://localhost:3000](http://localhost:30
 You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that you have provided the correct `MONGODB_URI` environment variable.
 
 When you are successfully connected, you can refer to the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further instructions on how to query your database.
-
-------------------------------
 
 ## Deploy on Vercel
 
@@ -131,7 +123,6 @@ Learn more about :
 
 You may see a simple web interface for this API at http://localhost:3000/. Some links to navigate through the API are available. Feel free to try it !
 
---------------------------
 
 ## Swagger UI
 
