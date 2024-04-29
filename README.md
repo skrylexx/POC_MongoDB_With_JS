@@ -160,8 +160,13 @@ Documentation exemple :
 
 #### Comments for a given film
 
-You will be able to see each comments for a given film through his page (see http://localhost:3000/movie/[id] ).
+You will be able to see each comments for a given film through its page (see http://localhost:3000/movie/[id] ).
 
 #### Form to add a film or a comment
 
 You will be able to add a film or a comment through a form in the web interface.
+
+#### User authentication and cookies
+
+Form to create an account and to log in. Cookies will be used to keep the user logged in and show him his comments.
+Cookies will also be used to show to the user his last researches and corresponding movies (by `genres`)
