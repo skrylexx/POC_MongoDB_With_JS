@@ -162,11 +162,15 @@ Documentation exemple :
 
 You will be able to see each comments for a given film through its page (see http://localhost:3000/movie/[id] ).
 
-#### Form to add a film or a comment
+#### Form to add, sections to update or delete a film or a comment
 
-You will be able to add a film or a comment through a form in the web interface.
+You will be able to add a film or a comment through a form in the web interface. By selecting a film or a comment, you will be able to update or delete it.
 
 #### User authentication and cookies
 
 Form to create an account and to log in. Cookies will be used to keep the user logged in and show him his comments.
-Cookies will also be used to show to the user his last researches and corresponding movies (by `genres`)
+Cookies will also be used to show to the user his last researches and corresponding movies (by `genres`).
+
+#### Search by and optimisation
+
+Some filters and a search bar will be added to make it easier to find a film. The search will be optimised to be faster (by loading films only if asked/needed)
