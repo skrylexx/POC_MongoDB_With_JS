@@ -142,10 +142,15 @@ export default async function handler(req, res) {
     const idMovie = req.query.id
     switch (req.method) {
         case "POST":
-            const body = JSON.parse(req.body);
-            const dbInsert = await db.collection("movies").insertOne({ body });
-            res.json({ status: 200, data: {movie: dbInsert} }); 
-        break;
+            try {
+                const body = req.body; // Pas besoin de JSON.parse si req.body est déjà un objet
+                const dbInsert = await db.collection("movies").insertOne(body);
+                res.json({ status: 200, data: { movie: dbInsert } });
+            } catch (error) {
+                console.error("Erreur lors de la manipulation du corps de la requête :", error);
+                res.status(400).json({ error: 'Erreur lors de la manipulation du corps de la requête' });
+            }
+            break;
         case "GET":
             const dbMovie = await db.collection("movies").findOne({ _id : new ObjectId(idMovie) });
             res.json({ status: 200, data: {movie: dbMovie} });
@@ -159,7 +164,7 @@ export default async function handler(req, res) {
             res.json({ status: 200, data: {movie: dbUpdate} });
         break;
         default:
-            res.json({ status:404, msg:'Wrong operation.'})
+            res.json({ status:405, msg:'Non authorisé.'})
         break;
     }
 }

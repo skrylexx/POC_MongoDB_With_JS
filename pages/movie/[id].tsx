@@ -31,20 +31,24 @@ function MovieDetails() {
     }, [id]); // Exécuter useEffect à chaque changement de 'id'
 
     // Fonction utilitaire pour rendre une liste d'éléments
-    const renderList = (value) => {
+    const renderList = (value: any[]) => {
         return (
             <ul style={styles.list}>
-                {value?.map((element, index) => ( // Utilisation de l'opérateur optionnel ?. pour éviter les erreurs si value est undefined
-                    <li key={index}>
-                          - {element ?? '-'}{/* Afficher 'Undefined' si element est undefined */}
-                    </li>
-                ))}
+                {Array.isArray(value) ? (
+                    value.map((element: any, index: React.Key | undefined) => (
+                        <li key={index}>
+                            - {element ?? '-'}
+                        </li>
+                    ))
+                ) : (
+                    <li>- {value ?? '-'}</li>
+                )}
             </ul>
         );
     };
 
     // Fonction utilitaire pour obtenir les statistiques IMDb
-    const getRate = (imdb) => {
+    const getRate = (imdb: { rating: any; votes: any; }) => {
         return (
             <ul style={styles.list}>
                 <li>
@@ -58,7 +62,7 @@ function MovieDetails() {
     };
 
     // Fonction utilitaire pour obtenir les récompenses
-    const getAwards = (awards) => {
+    const getAwards = (awards: { wins: any; nominations: any; text: any; }) => {
         return (
             <ul style={styles.list}>
                 <li>
@@ -75,7 +79,7 @@ function MovieDetails() {
     };
 
     // Fonction utilitaire pour extraire l'année à partir de la date de sortie
-    const parseYear = (released) => {
+    const parseYear = (released: string | any[]) => {
         return released?.slice(0, 4) ?? 'Undefined'; // Afficher '-' si released est undefined
     };
 
@@ -91,6 +95,7 @@ function MovieDetails() {
 
     // Afficher les détails du film si le chargement est terminé avec succès
     if (movie) {
+        // @ts-ignore
         return (
             <div style={styles.container}>
                 <h1 style={styles.title}>Détails du Film</h1>

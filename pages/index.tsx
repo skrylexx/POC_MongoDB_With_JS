@@ -32,11 +32,14 @@ function Home() {
       <div style={styles.container}>
         <h1 style={styles.heading}>Bienvenue sur <span style={styles.red}>☭ notre ☭ </span> site !</h1>
         <p style={styles.paragraph}>C'est la page d'accueil.</p>
-        <a href={`/comments`} style={styles.link}> Commentaires </a>
+        <div style={styles.bar}>
+          <a href={`/movie/add`} style={styles.link}> Ajouter un film </a>
+          <a href={`/comments`} style={styles.link}> Liste des commentaires </a>
+        </div>
         <h2 style={styles.subHeading}>Liste de nos {movies.length} films</h2>
         <ul style={styles.list}>
           {movies.map((movie, index) => (
-              <li key={movie._id} style={{...styles.listItem, display: showAllMovies || index < 5 ? 'block' : 'none'}}>
+              <li key={movie._id} style={{...styles.listItem, display: showAllMovies || index < 5 ? 'block' : 'none' }}>
                 <a href={`/movie/${movie._id}`} style={styles.link}>
                   {movie.title}
                 </a>
@@ -54,7 +57,7 @@ function Home() {
   );
 }
 
-// Styles CSS en tant qu'objet JavaScript
+// CSS
 const styles = {
   container: {
     maxWidth: "800px",
@@ -71,6 +74,10 @@ const styles = {
     fontSize: "1.5rem",
     marginTop: "30px",
     marginBottom: "15px"
+  },
+  bar:{
+    display: "flex",
+    justifyContent: "space-between",
   },
   paragraph: {
     fontSize: "1rem",
