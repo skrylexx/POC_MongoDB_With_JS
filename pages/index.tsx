@@ -1,6 +1,4 @@
-import { redirect } from "next/dist/server/api-utils";
 import React, { useEffect, useState } from "react";
-import {count} from "types-ramda";
 
 function Home() {
   const [movies, setMovies] = useState([]);
