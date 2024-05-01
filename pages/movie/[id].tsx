@@ -17,20 +17,20 @@ function MovieDetails() {
                 }
                 const movieData = await response.json();
                 setMovie(movieData.data.movie);
-                setLoading(false); // Marquer le chargement comme terminé
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching movie details:', error);
-                setError(true); // Marquer une erreur
-                setLoading(false); // Arrêter le chargement
+                setError(true);
+                setLoading(false);
             }
         };
 
         if (id) {
-            fetchMovieDetails(); // Appeler la fonction de récupération des détails du film si l'id est présent
+            fetchMovieDetails(); // If ID in URL : call function
         }
-    }, [id]); // Exécuter useEffect à chaque changement de 'id'
+    }, [id]); // Execute UseEffect on each id change
 
-    // Fonction utilitaire pour rendre une liste d'éléments
+    // Function for a clean render of lists
     const renderList = (value: any[]) => {
         return (
             <ul style={styles.list}>
@@ -78,22 +78,22 @@ function MovieDetails() {
         );
     };
 
-    // Fonction utilitaire pour extraire l'année à partir de la date de sortie
+    // Get YEAR only
     const parseYear = (released: string | any[]) => {
         return released?.slice(0, 4) ?? 'Undefined'; // Afficher '-' si released est undefined
     };
 
-    // Afficher un message pendant le chargement
+    // Loading message
     if (loading) {
         return <p style={styles.loading}>Chargement en cours...</p>;
     }
 
-    // Afficher un message d'erreur si une erreur s'est produite
+    // Error handling
     if (error) {
         return <p style={styles.error}>Une erreur s'est produite lors du chargement des détails du film.</p>;
     }
 
-    // Afficher les détails du film si le chargement est terminé avec succès
+    // Movie details
     if (movie) {
         // @ts-ignore
         return (
@@ -101,10 +101,10 @@ function MovieDetails() {
                 <h1 style={styles.title}>Détails du Film</h1>
                 <div style={styles.detailsContainer}>
                     <div style={styles.posterContainer}>
-                        <img src={movie?.poster ?? ''} alt={'Poster indisponible'} style={styles.poster} /> {/* Utilisation de l'opérateur optionnel ?. pour éviter les erreurs si movie est undefined */}
+                        <img src={movie?.poster ?? ''} alt={'Poster indisponible'} style={styles.poster} /> {/* Return '' if undefined */}
                     </div>
                     <div style={styles.infoContainer}>
-                        <p style={styles.info}><strong>Titre :</strong> {movie?.title ?? 'Undefined'}</p> {/* Afficher 'Undefined' si movie ou movie.title est undefined */}
+                        <p style={styles.info}><strong>Titre :</strong> {movie?.title ?? 'Undefined'}</p>
                         <p style={styles.info}><strong>Année :</strong> {parseYear(movie?.released) ?? 'Undefined'}</p> 
                         <p style={styles.info}><strong>Genres :</strong> {renderList(movie?.genres) ?? 'Undefined'}</p> 
                         <p style={styles.info}><strong>Description :</strong> {movie?.plot ?? 'Undefined'}</p> 
@@ -126,7 +126,7 @@ function MovieDetails() {
     return <p style={styles.error}>Aucun détail de film trouvé pour cet ID.</p>;
 }
 
-// Styles CSS en tant qu'objet JavaScript
+//CSS
 const styles = {
     container: {
         maxWidth: "800px",

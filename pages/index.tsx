@@ -23,7 +23,7 @@ function Home() {
     fetchMovies();
   }, []);
 
-  // Fonction pour afficher tous les films lorsqu'on clique sur le bouton
+  // Get all movies on click
   const handleShowAllMovies = () => {
     setShowAllMovies(true);
   };
@@ -47,7 +47,7 @@ function Home() {
           ))}
         </ul>
 
-        {/* Bouton pour afficher tous les films masqués */}
+        {/* Show hidden movies */}
         {!showAllMovies && (
             <button style={styles.button} onClick={handleShowAllMovies}>
               Afficher plus de films

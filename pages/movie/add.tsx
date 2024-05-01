@@ -1,4 +1,3 @@
-// Dans votre fichier /pages/add/add.tsx
 import React, { useState } from 'react';
 
 const AddMoviePage: React.FC = () => {
@@ -24,13 +23,6 @@ const AddMoviePage: React.FC = () => {
         setFormData({
             ...formData,
             [name]: value
-        });
-    };
-
-    const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-        setFormData({
-            ...formData,
         });
     };
 
@@ -112,9 +104,8 @@ const AddMoviePage: React.FC = () => {
 
 export default AddMoviePage;
 
-// Fonction createMovie ajoutée
+// Function to send datas and create movie
 function createMovie(formData: any): Promise<string> {
-    // Logique pour envoyer les données au serveur avec l'API /api/movie/[id]
     const id = generateId(); // Générer automatiquement l'ID avec 23 caractères alphanumériques
     return fetch(`/api/movie/${id}`, {
         method: 'POST',
@@ -131,7 +122,7 @@ function createMovie(formData: any): Promise<string> {
     });
 }
 
-// Fonction generateId ajoutée
+// ID generation
 function generateId(): string {
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let id = '';
@@ -141,13 +132,12 @@ function generateId(): string {
     return id;
 }
 
-// Fonction getCurrentDateTime ajoutée
 function getCurrentDateTime(): string {
     const now = new Date();
     return now.toISOString().slice(0, 19).replace('T', ' '); // Format YYYY-MM-DD hh:mm:ss
 }
 
-// Styles CSS en tant qu'objet JavaScript
+//CSS
 const styles = {
     container: {
         maxWidth: '600px',
