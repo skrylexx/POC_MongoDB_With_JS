@@ -121,7 +121,11 @@ Learn more about :
 
 #### Web Interface
 
-You may see a simple web interface for this API at http://localhost:3000/. Some links to navigate through the API are available. Feel free to try it !
+You may see a simple web interface for this API at http://localhost:3000/.
+There's a search bar to find movies by keywords (for title, genres, cast etc...).
+You can add a new movie by going through http://localhost/movie/add. Some elements are required and notified with a star. You are not allowed to send data without writing in this text areas. 
+
+http://localhost/comments shows you all commentaries with a search bar to search by user's name.
 
 
 ## Swagger UI
@@ -158,19 +162,25 @@ Documentation exemple :
 
 ## What's next ?
 
-#### Comments for a given film
+#### Movie section update
 
-You will be able to see each comments for a given film through its page (see http://localhost:3000/movie/[id] ).
-
-#### Form to add, sections to update or delete a film or a comment
-
-You will be able to add a film or a comment through a form in the web interface. By selecting a film or a comment, you will be able to update or delete it.
+You will be able to see each comments for a given film through its page (see http://localhost:3000/movie/[id] ) and add one with a form.
 
 #### User authentication and cookies
 
 Form to create an account and to log in. Cookies will be used to keep the user logged in and show him his comments.
 Cookies will also be used to show to the user his last researches and corresponding movies (by `genres`).
 
-#### Search by and optimisation
+Administrator accounts will be created to supervise the website and keep its community safe.
 
-Some filters and a search bar will be added to make it easier to find a film. The search will be optimised to be faster (by loading films only if asked/needed)
+#### Update or delete a comment
+
+Authenticated users will be able to update their comments or delete them. Administrators will be able to delete comment from anybody if he's not correct.
+
+#### Rating
+
+Soon, the rating feature would be added directly on the movie's page. You will need to be authenticated before rating to not pollute movie's reputation.
+
+#### Optimisations
+
+The search and the loading will be optimised to be faster (by loading films only if asked/needed)

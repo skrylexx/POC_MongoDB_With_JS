@@ -1,7 +1,5 @@
-import { error } from "console";
 import clientPromise from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
-import { title } from "process";
 
 
 
@@ -82,14 +80,38 @@ export default async function handler(req, res) {
     const idCommentary =req.query.id
     switch(req.method){
         case "GET":
-            // Tous les commentaires d'un film
-            const idMovie = req.query.id
-            const dbCommentaryByFilm = await db.collection("comments").find({ movie_id : new ObjectId(idMovie)}).toArray();
-            res.json({ status: 200, data: dbCommentaryByFilm });
-            // Un seul commentaire
-            //const dbCommentaryByFilm = await db.collection("comments").find({ movie_id : new ObjectId(idCommentary)});
-            //res.json({ status: 200, data: dbCommentaryByFilm });
-        break;
+            try {
+                const comment = await db.collection("comments").findOne({ _id: new ObjectId(idCommentary) });
+                if (!comment) {
+                    res.status(404).json({ error: "Comment not found" });
+                    return;
+                }
+                console.log(comment)
+
+                const movieId = comment.movie_id; // Récupérer l'ID du film depuis le commentaire
+                console.log(movieId);
+                if (!movieId) {
+                    res.status(404).json({ error: "No movie found" });
+                    return;
+                }
+
+                const movie = await db.collection("movies").findOne({ _id: new ObjectId(movieId) });
+                const movieName = movie ? movie.title : "Unknown";
+                const moviePoster = movie ? movie.poster : "https://marketplace.canva.com/EAFCO6pfthY/1/0/1600w/canva-blue-green-watercolor-linktree-background-F2CyNS5sQdM.jpg";
+                console.log(movieName)
+                const commentWithMovie = {
+                    ...comment,
+                    movie_name: movieName,
+                    poster: moviePoster,
+                };
+
+                res.status(200).json({ data: commentWithMovie });
+            } catch (error) {
+                console.error("Error fetching comment:", error);
+                res.status(500).json({ error: "Internal Server Error" });
+            }
+            break;
+
         case "PUT":
             const dbPutCommentary = await db.collection("comments").updateOne({ _id: new ObjectId(idCommentary)}, {$set: { body }});
             res.json({ status: 200, data: dbPutCommentary });

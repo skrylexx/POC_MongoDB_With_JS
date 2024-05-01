@@ -1,257 +1,147 @@
-import Head from "next/head";
-import clientPromise from "../../lib/mongodb";
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-type ConnectionStatus = {
-  isConnected: boolean;
-};
+function Comment() {
+  const router = useRouter();
+  const {id} = router.query;
+  const [comment, setComment] = useState(null);
 
-export const getServerSideProps: GetServerSideProps<
-  ConnectionStatus
-> = async () => {
-  try {
-    await clientPromise;
-    // `await clientPromise` will use the default database passed in the MONGODB_URI
-    // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
-    //
-    // `const client = await clientPromise`
-    // `const db = client.db("myDatabase")`
-    //
-    // Then you can execute queries against your database like so:
-    // db.find({}) or any of the MongoDB Node Driver commands
-
-    return {
-      props: { isConnected: true },
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/movie/comment/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch comment");
+        }
+        const commentData = await response.json();
+        console.log("Comment Data:", commentData); // Console response
+        setComment(commentData.data);
+      } catch (error) {
+        console.error("Error fetching comment:", error);
+      }
     };
-  } catch (e) {
-    console.error(e);
-    return {
-      props: { isConnected: false },
-    };
-  }
-};
 
-export default function MongoStatus({
-  isConnected,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    if (id) {
+      fetchComment();
+    }
+  }, [id]);
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
-        </h1>
-
-        {isConnected ? (
-          <h2 className="subtitle">You are connected to MongoDB</h2>
-        ) : (
-          <h2 className="subtitle">
-            You are NOT connected to MongoDB. Check the <code>README.md</code>{" "}
-            for instructions.
-          </h2>
-        )}
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+  if (!comment) {
+    return (
+        <div style={styles.load}>
+            <div style={styles.loadText}>Loading...</div>
         </div>
-      </main>
+    );
+  }
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
+    const parseYear = (released: string | any[]) => {
+        return released?.slice(0, 10) ?? 'Undefined'; // Afficher '-' si released est undefined
+    };
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+  // @ts-ignore
+  return (
+      <div style= {{
+          width: "100%",
+          height: "100vh",
+          margin: "0%",
+          padding: "0%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundImage: `url(${comment.poster})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "repeat",
+      }} >
+          <div style={styles.container}>
+              <div style={styles.head}>
+                  <h1 style={styles.headText}>Comment Details</h1>
+              </div>
+              <hr style={styles.hr}></hr>
+              <div style={styles.body}>
+                  <p style={styles.p}><strong>User's name:</strong><br></br>{comment.name}</p>
+                  <p style={styles.p}><strong>Movie Name:</strong><br></br><a style={styles.link} href={`/movie/${comment.movie_id}`}>{comment.movie_name}</a></p>
+                  <p style={styles.p}><strong>Text:</strong><br></br>{comment.text}</p>
+                  <p style={styles.p}><strong>Date:</strong><br></br>{parseYear(comment.date)}</p>
+              </div>
+              <div style={styles.foot}>
+                  <a href={'/comments/'} style={styles.link}>Go back to all comments</a>
+              </div>
+          </div>
+      </div>
+  )
+}
 
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+export default Comment;
 
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .subtitle {
-          font-size: 2rem;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  );
+const styles = {
+    main: {
+        width: "100%",
+        height: "100vh",
+        margin: "0%",
+        padding: "0%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: "url(https://marketplace.canva.com/EAFCO6pfthY/1/0/1600w/canva-blue-green-watercolor-linktree-background-F2CyNS5sQdM.jpg)",
+        backgroundSize: "cover",
+        backgroundRepeat: "repeat",
+        border: "1px solid #ccc",
+    },
+    load: {
+        width: "100%",
+        height: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Arial, sans-serif"
+    },
+    loadText: {
+        fontSize: "3rem"
+    },
+    container: {
+        borderRadius: "10px",
+        marginTop: "5%",
+        height: "70vh",
+        width: "60vw",
+        backgroundColor: "#f5f5f5",
+        color: "#333",
+        fontFamily: "Arial, sans-serif",
+        boxShadow: "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;",
+        opacity: "0.9"
+    },
+    head: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: 'center',
+        fontSize: "1.5em"
+    },
+    headText: {
+      opacity: "1"
+    },
+    hr: {
+        width: "40%"
+    },
+    link: {
+        textDecoration: "none",
+        color: "#007bff",
+        fontWeight: "bold"
+    },
+    body: {
+        height: "45vh",
+        display: "block",
+        textAlign: "center",
+        fontSize: "1.2em",
+        paddingLeft: "50px",
+        paddingRight: "50px",
+        paddingTop: "40px",
+        overflowY: "scroll"
+    },
+    p: {
+        marginBottom: "30px",
+        opacity: "1"
+    },
+    foot: {
+        display: "flex",
+        justifyContent: "center"
+    }
 }
