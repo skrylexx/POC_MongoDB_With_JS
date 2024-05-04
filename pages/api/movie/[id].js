@@ -152,7 +152,6 @@ export default async function handler(req, res) {
             const dbMovie = await db.collection("movies").findOne({ _id : new ObjectId(idMovie) });
             const movie_id = dbMovie._id;
             const comments = await db.collection("comments").find({movie_id: new ObjectId(movie_id) }).limit(11).toArray();
-            console.log(comments)
             res.json({ status: 200, data: {movie: dbMovie, comments: comments}});
         break;
         case "DELETE":

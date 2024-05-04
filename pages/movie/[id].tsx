@@ -90,10 +90,22 @@ function MovieDetails() {
         router.push(`/comments/${commentId}`);
     };
 
-    const redirectToAllCommentsPage = (commentId: string) => {
+    const redirectToAllCommentsPage = () => {
         // @ts-ignore
         router.push(`/movie/comments/${movie._id}`);
     };
+
+    const returnValue = (value: any) => {
+    let msg;
+    if (value === 1) {
+        msg = `You liked '${movie?.title}'`;
+    } else {
+        msg = `You disliked '${movie?.title}'`;
+    }
+    console.log(movie)
+    alert(msg);
+}
+
 
     // Loading message
     if (loading) {
@@ -115,7 +127,17 @@ function MovieDetails() {
                                  style={styles.fullPoster}/></strong>
                 </div>
                 <div style={styles.container}>
-                    <h1 style={styles.title}>Détails du Film</h1>
+                    <div style={styles.topBar}>
+                        <h1 style={styles.title}>Détails du Film</h1>
+                        <div style={styles.thumbDiv}>
+                            <button style={styles.up} onClick={
+                                () => returnValue(1)
+                            }>👍</button>
+                            <button style={styles.down} onClick={
+                                () => returnValue(2)
+                            }>👎</button>
+                        </div>
+                    </div>
                     <a href={`/`} style={styles.link}>Retour au menu</a>
                     <br/>
                     <br/>
@@ -152,7 +174,8 @@ function MovieDetails() {
                 </div>
                 <div style={styles.commentContainer}>
                     <h2 style={styles.commentTitle}>Commentaires :<br/></h2>
-                    {comments.length === 0 ? (
+                    <div style={styles.insideContainer}>
+                        {comments.length === 0 ? (
                         <p style={styles.noComment}>Pas de commentaire disponible pour ce film.</p>
                     ) : (
                         comments.slice(0, 10).map((comment: any, index: number) => (
@@ -162,7 +185,7 @@ function MovieDetails() {
                                 onClick={() => redirectToCommentsPage(comment._id)}
                             >
                                 <p style={styles.commentUser}>Utilisateur : {comment.name}</p>
-                                <p style={styles.commentContent}>Commentaire : {comment.text}</p>
+                                <p style={styles.commentContent}>{comment.text}</p>
                                 {index === 9 && comments.length > 10 && (
                                     <p style={styles.moreCommentsLink} onClick={(commentId = comment._id) => redirectToAllCommentsPage()}>Voir
                                         plus de commentaires</p>
@@ -170,6 +193,8 @@ function MovieDetails() {
                             </div>
                         ))
                     )}
+                    </div>
+
                 </div>
             </div>
         );
@@ -188,6 +213,30 @@ const styles = {
         display: "grid",
         gridTemplateRows: "auto auto",
         gridTemplateColumns: "30% 50%",
+        fontFamily: "Arial, sans-serif",
+    },
+    topBar: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    thumbDiv: {
+        height: "5vh",
+        width: "5vw",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer"
+    },
+    up:{
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#39e75f",
+    },
+    down:{
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#FF1F1F"
     },
     imageContainer: {
         gridColumn: "1 / 2",
@@ -272,16 +321,22 @@ const styles = {
         gridRow: "3 / 4",
         gridColumn: "1 / -1",
         maxHeight: "300px",
-        overflowY: "scroll",
-        marginBottom: "20px"
+        marginBottom: "20px",
+    },
+    insideContainer: {
+        display: "flex",
+        marginLeft: "20px",
+        overflowX: "scroll"
     },
     commentBox: {
         border: "1px solid #ccc",
         borderRadius: "5px",
         padding: "10px",
         marginBottom: "10px",
+        marginRight: "50px",
         cursor: "pointer",
-        width: '500px'
+        width: '500px',
+        overflowY: "scroll"
     },
     commentUser: {
         fontWeight: "bold",

@@ -49,11 +49,12 @@ function Comments() {
                 comments.map((comment) => (
                     <div key={comment._id} style={styles.commentBox}>
                         <p style={styles.commentUser}>Utilisateur : {comment.name}</p>
-                        <p style={styles.commentContent}>Commentaire : {comment.text}</p>
+                        <p style={styles.commentContent}>{comment.text}</p>
                         <p style={styles.commentDate}>Date : {comment.date}</p>
                     </div>
                 ))
             )}
+            <a href={`/movie/${id}`} style={styles.link}>Retour à la page du film</a>
         </div>
     );
     }
@@ -70,6 +71,12 @@ const styles = {
         backgroundColor: "#f5f5f5",
         overflowY: "scroll",
         maxHeight: "300px",
+        fontFamily: "Arial, sans-serif",
+    },
+    link: {
+        textDecoration: "none",
+        color: "#007bff",
+        fontWeight: "bold"
     },
     commentBox: {
         marginBottom: "10px",
