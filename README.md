@@ -164,7 +164,7 @@ Documentation exemple :
 
 #### Movie section update
 
-You will be able to see each comments for a given film through its page (see http://localhost:3000/movie/[id] ) and add one with a form.
+Besides reviewing comments for a movie on its page, you will be able to add a new comment by clicking on a button and fill out a form.
 
 #### User authentication and cookies
 
@@ -180,6 +180,8 @@ Authenticated users will be able to update their comments or delete them. Admini
 #### Rating
 
 Soon, the rating feature would be added directly on the movie's page. You will need to be authenticated before rating to not pollute movie's reputation.
+
+Comment rating will be avalaible too.
 
 #### Optimisations
 

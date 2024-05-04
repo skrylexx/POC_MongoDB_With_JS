@@ -5,6 +5,7 @@ function MovieDetails() {
     const router = useRouter();
     const { id } = router.query; // Get ID from URL
     const [movie, setMovie] = useState(null);
+    const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
@@ -17,6 +18,7 @@ function MovieDetails() {
                 }
                 const movieData = await response.json();
                 setMovie(movieData.data.movie);
+                setComments(movieData.data.comments);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching movie details:', error);
@@ -83,6 +85,16 @@ function MovieDetails() {
         return released?.slice(0, 4) ?? 'Undefined'; // Afficher '-' si released est undefined
     };
 
+    // Redirect to comments page with comment ID
+    const redirectToCommentsPage = (commentId: string) => {
+        router.push(`/comments/${commentId}`);
+    };
+
+    const redirectToAllCommentsPage = (commentId: string) => {
+        // @ts-ignore
+        router.push(`/movie/comments/${movie._id}`);
+    };
+
     // Loading message
     if (loading) {
         return <p style={styles.loading}>Chargement en cours...</p>;
@@ -97,30 +109,67 @@ function MovieDetails() {
     if (movie) {
         // @ts-ignore
         return (
-            <div style={styles.container}>
-                <h1 style={styles.title}>Détails du Film</h1>
-                <a href={`/`} style={styles.link}>Retour au menu</a>
-                <br/>
-                <br/>
-                <div style={styles.detailsContainer}>
-                    <div style={styles.posterContainer}>
-                        <img src={movie?.poster ?? ''} alt={'Poster indisponible'} style={styles.poster} /> {/* Return '' if undefined */}
+            <div style={styles.main}>
+                <div style={styles.imageContainer}>
+                    <strong><img src={movie?.poster ?? ''} alt={'!! Poster indisponible !!'}
+                                 style={styles.fullPoster}/></strong>
+                </div>
+                <div style={styles.container}>
+                    <h1 style={styles.title}>Détails du Film</h1>
+                    <a href={`/`} style={styles.link}>Retour au menu</a>
+                    <br/>
+                    <br/>
+                    <div style={styles.detailsContainer}>
+                        <div style={styles.posterContainer}>
+                            <img src={movie?.poster ?? ''} alt={'Poster indisponible'}
+                                 style={styles.poster}/> {/* Return '' if undefined */}
+                        </div>
+                        <div style={styles.infoContainer}>
+                            <p style={styles.info}><strong>Titre :</strong> {movie?.title ?? 'Undefined'}</p>
+                            <p style={styles.info}><strong>Année :</strong> {parseYear(movie?.released) ?? 'Undefined'}
+                            </p>
+                            <p style={styles.info}><strong>Genres :</strong> {renderList(movie?.genres) ?? 'Undefined'}
+                            </p>
+                            <p style={styles.info}><strong>Description :</strong> {movie?.plot ?? 'Undefined'}</p>
+                            <p style={styles.info}><strong>Stats :</strong> {getRate(movie?.imdb) ?? 'Undefined'}</p>
+                            <p style={styles.info}><strong>Awards :</strong> {getAwards(movie?.awards) ?? 'Undefined'}
+                            </p>
+                            <p style={styles.info}><strong>Casting :</strong> {renderList(movie?.cast) ?? 'Undefined'}
+                            </p>
+                            <p style={styles.info}><strong>Languages
+                                :</strong> {renderList(movie?.languages) ?? 'Undefined'}</p>
+                            <p style={styles.info}><strong>Directors
+                                :</strong> {renderList(movie?.directors) ?? 'Undefined'}</p>
+                            <p style={styles.info}><strong>Writers
+                                :</strong> {renderList(movie?.writers) ?? 'Undefined'}
+                            </p><br></br>
+                            <p style={styles.info}><strong>Countries
+                                :</strong> {renderList(movie?.countries) ?? 'Undefined'}</p>
+                            <p style={styles.info}><strong>Full plot :<br/></strong> {movie?.fullplot ?? 'Undefined'}
+                            </p>
+                        </div>
                     </div>
-                    <div style={styles.infoContainer}>
-                        <p style={styles.info}><strong>Titre :</strong> {movie?.title ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Année :</strong> {parseYear(movie?.released) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Genres :</strong> {renderList(movie?.genres) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Description :</strong> {movie?.plot ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Stats :</strong> {getRate(movie?.imdb) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Awards :</strong> {getAwards(movie?.awards) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Casting :</strong> {renderList(movie?.cast) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Languages :</strong> {renderList(movie?.languages) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Directors :</strong> {renderList(movie?.directors) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Writers :</strong> {renderList(movie?.writers) ?? 'Undefined'}</p><br></br>
-                        <strong><img src={movie?.poster ?? ''} alt={'!! Poster indisponible !!'} style={styles.fullPoster}/></strong>
-                        <p style={styles.info}><strong>Countries :</strong> {renderList(movie?.countries) ?? 'Undefined'}</p>
-                        <p style={styles.info}><strong>Full plot :</strong> {movie?.fullplot ?? 'Undefined'}</p>
-                    </div>
+                </div>
+                <div style={styles.commentContainer}>
+                    <h2 style={styles.commentTitle}>Commentaires :<br/></h2>
+                    {comments.length === 0 ? (
+                        <p style={styles.noComment}>Pas de commentaire disponible pour ce film.</p>
+                    ) : (
+                        comments.slice(0, 10).map((comment: any, index: number) => (
+                            <div
+                                key={comment.id} // Use comment id as key
+                                style={styles.commentBox}
+                                onClick={() => redirectToCommentsPage(comment._id)}
+                            >
+                                <p style={styles.commentUser}>Utilisateur : {comment.name}</p>
+                                <p style={styles.commentContent}>Commentaire : {comment.text}</p>
+                                {index === 9 && comments.length > 10 && (
+                                    <p style={styles.moreCommentsLink} onClick={(commentId = comment._id) => redirectToAllCommentsPage()}>Voir
+                                        plus de commentaires</p>
+                                )}
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         );
@@ -131,7 +180,20 @@ function MovieDetails() {
 
 //CSS
 const styles = {
+    main: {
+        height: "100%",
+        width: "100%",
+        padding: "0%",
+        margin: "0",
+        display: "grid",
+        gridTemplateRows: "auto auto",
+        gridTemplateColumns: "30% 50%",
+    },
+    imageContainer: {
+        gridColumn: "1 / 2",
+    },
     container: {
+        gridColumn: "2 / 3",
         maxWidth: "800px",
         margin: "0 auto",
         padding: "20px",
@@ -200,6 +262,45 @@ const styles = {
         cursor: "pointer",
         marginTop: "20px",
         textDecoration: "none"
+    },
+    commentTitle: {
+        fontSize: "1.5rem",
+        marginTop: "30px",
+        marginBottom: "15px"
+    },
+    commentContainer: {
+        gridRow: "3 / 4",
+        gridColumn: "1 / -1",
+        maxHeight: "300px",
+        overflowY: "scroll",
+        marginBottom: "20px"
+    },
+    commentBox: {
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+        padding: "10px",
+        marginBottom: "10px",
+        cursor: "pointer",
+        width: '500px'
+    },
+    commentUser: {
+        fontWeight: "bold",
+        marginBottom: "5px"
+    },
+    commentContent: {
+        marginBottom: 0
+    },
+    noComment: {
+        fontSize: "1.2rem",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    moreCommentsLink: {
+        fontSize: "1.2rem",
+        fontWeight: "bold",
+        color: "blue",
+        cursor: "pointer",
+        textAlign: "center"
     }
 };
 
