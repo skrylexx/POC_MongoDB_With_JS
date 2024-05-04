@@ -166,6 +166,8 @@ Documentation exemple :
 
 Besides reviewing comments for a movie on its page, you will be able to add a new comment by clicking on a button and fill out a form.
 
+A new functionality to like or dislike a movie should appear soon too !
+
 #### User authentication and cookies
 
 Form to create an account and to log in. Cookies will be used to keep the user logged in and show him his comments.
