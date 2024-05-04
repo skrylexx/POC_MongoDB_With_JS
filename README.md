@@ -166,7 +166,7 @@ Documentation exemple :
 
 Besides reviewing comments for a movie on its page, you will be able to add a new comment by clicking on a button and fill out a form.
 
-A new functionality to like or dislike a movie should appear soon too !
+A new functionality to like or dislike a movie should appear soon too ! For now, it has no effect, it's only front-end.
 
 #### User authentication and cookies
 
