@@ -168,6 +168,8 @@ Besides reviewing comments for a movie on its page, you will be able to add a ne
 
 A new functionality to like or dislike a movie should appear soon too ! For now, it has no effect, it's only front-end.
 
+When adding a movie, a notification will show you the result.
+
 #### User authentication and cookies
 
 Form to create an account and to log in. Cookies will be used to keep the user logged in and show him his comments.
