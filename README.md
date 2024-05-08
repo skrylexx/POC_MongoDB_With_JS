@@ -1,3 +1,14 @@
+## Summary
+
+- [Example using MongoDB](#Example-app-using-MongoDB)
+- [Deploy you own](#deploy-your-own)
+- [How to use](#how-to-use)
+- [Configuration](#configuration)
+- [Deploy on Vercel](#deploy-on-vercel)
+- [Context](#context-and-features)
+- [Swagger UI](#swagger-ui)
+- [What's Next ?](#whats-next-)
+
 ## Example app using MongoDB
 
 [MongoDB](https://www.mongodb.com/) is a general purpose, document-based, distributed database built for modern application developers and for the cloud era. This example will show you how to connect to and use MongoDB as your backend for your Next.js app.
@@ -47,6 +58,11 @@ Set each variable on `.env.local`:
 
 - `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
 
+Format is :
+```bash
+MONGODB_URI=mongodb+srv://<'username'>:<'password'>@<'db_name'>.<'id'>.mongodb.net/?retryWrites=true&w=majority
+```
+
 ### Run Next.js in development mode
 
 ```bash
@@ -83,7 +99,7 @@ Alternatively, you can deploy using our template by clicking on the Deploy butto
 
 --------------------
 
-## Context
+## Context and features
 
 #### Queried database
 
@@ -91,7 +107,7 @@ This app is made for the `sample_mflix` of Atlas MongoDB.
 
 You can easily create the sample from their website and then run this app.
 
-#### Environnement
+#### Environment
 
 Make sur you copied `.env.local.example` as `.env.local` or renamed it.
 
@@ -105,13 +121,13 @@ Text after `.net/` is optional but seems legit.
 
 You may try it by yourself using Postman or by creating your own script.
 
-I personaly used Postman to test my endpoints.
+I personally used Postman to test my endpoints.
 
 #### Datas
 
-The datas sent to this API are in Json format. MongoDB with NodeJS natively accepts it and doesn't require for any translation.
+The datas sent to this API are in Json format. MongoDB with Node.js natively accepts it and doesn't require for any translation.
 
-All Json informations have to be in the body of the request. It permits to send long strings without any error compare to HEAD arguments.
+All Json information have to be in the body of the request. It permits to send long strings without any error compare to HEAD arguments.
 
 Learn more about :
 
@@ -127,6 +143,15 @@ You can add a new movie by going through http://localhost/movie/add. Some elemen
 
 http://localhost/comments shows you all commentaries with a search bar to search by user's name.
 
+#### Methods available through API endpoints
+
+|                               |GET| POST | PUT | DELETE |
+|-------------------------------|---|------|-----|--------|
+| /api/movies                   |yes| no   | no  | no     |
+| /api/movie/`[id]`             |yes| yes  | yes | yes    |
+| /api/movie/comments           |yes| no   | no  | no     |
+| /api/movie/comment/`[id]`     |yes| yes  | yes | yes    |
+| /api/movie/allComments/`[id]` |yes| no   | no  | no     |
 
 ## Swagger UI
 
@@ -150,12 +175,13 @@ yum install swagger-ui-react
 Once the packages installed, you can see you're API doc through this URI :
 `http://localhost:3000/swagger/`
 
+
 #### Swagger UI
 
 Complete UI :
 ![alt text](https://github.com/skrylexx/POC_MongoDB_With_JS/blob/main/images/swagger_vue.png?raw=true)
 
-Documentation exemple :
+Documentation example :
 ![alt text](https://github.com/skrylexx/POC_MongoDB_With_JS/blob/main/images/api_call.png?raw=true)
 
 ----------------------
@@ -167,8 +193,6 @@ Documentation exemple :
 Besides reviewing comments for a movie on its page, you will be able to add a new comment by clicking on a button and fill out a form.
 
 A new functionality to like or dislike a movie should appear soon too ! For now, it has no effect, it's only front-end.
-
-When adding a movie, a notification will show you the result.
 
 #### User authentication and cookies
 
@@ -185,7 +209,7 @@ Authenticated users will be able to update their comments or delete them. Admini
 
 Soon, the rating feature would be added directly on the movie's page. You will need to be authenticated before rating to not pollute movie's reputation.
 
-Comment rating will be avalaible too.
+Comment rating will be available too.
 
 #### Optimisations
 
