@@ -26,12 +26,16 @@ const AddMoviePage: React.FC = () => {
         });
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Logique pour envoyer les données au serveur avec l'API /api/movie/[id]
-        createMovie(formData)
-            .then(id => console.log(`Film créé avec succès. ID: ${id}`))
-            .catch(error => console.error(error));
+        try {
+            const id = await createMovie(formData);
+            alert(`Film ajouté avec succès. ID: ${id}`);
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout du film:', error);
+            // @ts-ignore
+            alert(`Erreur: ${error.message}`);
+        }
     };
 
     return (
